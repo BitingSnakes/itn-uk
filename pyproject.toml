@@ -7,6 +7,7 @@ name = "ukr_itn"
 version = "0.1.9"
 authors = [
     { name = "Vasyl Spachynskyi", email = "vspachyn@gmail.com" },
+    { name = "Yehor Smoliakov", email = "egorsmkv@gmail.com" },
 ]
 description = "WFST for Ukrainian Inverse Text Normalization (ITN) based on NVIDIA NeMo and Pynini"
 readme = "README.md"
