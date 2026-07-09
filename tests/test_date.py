@@ -17,3 +17,12 @@ from ukr.wfst import normalize
 ])
 def test_month(spoken, expected):
     assert normalize(spoken) == expected
+
+
+@pytest.mark.parametrize("spoken,expected", [
+    ("п'ятого липня", '5 липня'),
+    ("п'ятого липня дві тисячі двадцятого року", '5 липня 2020 року'),
+    ("липень дві тисячі першого року", 'липень 2001 року'),
+])
+def test_july(spoken, expected):
+    assert normalize(spoken) == expected

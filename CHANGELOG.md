@@ -2,6 +2,16 @@
 
 ### v0.1.9
 
+- Richer grammar data:
+    - Fixed DATE grammar for July — `month.tsv` contained «ли́пень» with a combining accent,
+      so `"п'ятого липня"` was silently left unnormalized; now -> `5 липня`.
+    - MEASURE: added length (`км`, `м`, `см`, `мм`), mass (`кг`, `г`, `т`), volume (`л`, `мл`),
+      area (`га`), time (`с`) units and colloquial «процент» (full case paradigms), e.g.
+      `"сто двадцять кілометрів"` -> `120 км`, `"мінус п'ять цілих три десятих кілограма"` -> `-5.3 кг`.
+    - MONEY: added euro (`"два євро п'ятдесят євроцентів"` -> `€2.50`) and pound sterling
+      (`"п'ять фунтів стерлінгів"` -> `£5`, `"два фунти двадцять пенсів"` -> `£2.20`).
+    - The money verbalizer now derives accepted currency symbols from the data files
+      instead of a hardcoded `$`/`₴` list.
 - Production hardening:
     - Grammars are now built lazily on first use — `import ukr` is instant.
     - New public API: `from ukr import normalize, InverseNormalizer` (old `ukr.wfst` imports still work).

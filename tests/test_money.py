@@ -19,3 +19,16 @@ from ukr.wfst import normalize
 ])
 def test_money(spoken, expected):
     assert normalize(spoken) == expected
+
+
+@pytest.mark.parametrize("spoken,expected", [
+    ("сто євро", '€100'),
+    ("два євро п'ятдесят євроцентів", '€2.50'),
+    ("п'ятдесят євроцентів", '€0.50'),
+    ("п'ять фунтів стерлінгів", '£5'),
+    ("десять фунтів", '£10'),
+    ("два фунти двадцять пенсів", '£2.20'),
+    ("двадцять пенсів", '£0.20'),
+])
+def test_euro_pound(spoken, expected):
+    assert normalize(spoken) == expected

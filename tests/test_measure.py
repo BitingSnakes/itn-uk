@@ -12,3 +12,21 @@ from ukr.wfst import normalize
 ])
 def test_percent(spoken, expected):
     assert normalize(spoken) == expected
+
+
+@pytest.mark.parametrize("spoken,expected", [
+    ("сто двадцять кілометрів", '120 км'),
+    ("двадцять два метри", '22 м'),
+    ("п'ять сантиметрів", '5 см'),
+    ("три міліметри", '3 мм'),
+    ("мінус п'ять цілих три десятих кілограма", '-5.3 кг'),
+    ("п'ятдесят грамів", '50 г'),
+    ("три тонни", '3 т'),
+    ("два літри", '2 л'),
+    ("сто мілілітрів", '100 мл'),
+    ("сорок гектарів", '40 га'),
+    ("десять секунд", '10 с'),
+    ("п'ять процентів", '5 %'),
+])
+def test_units(spoken, expected):
+    assert normalize(spoken) == expected

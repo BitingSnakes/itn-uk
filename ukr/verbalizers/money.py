@@ -2,6 +2,7 @@ import pynini
 from pynini.lib import pynutil
 
 from ukr.graph_utils import GraphFst, delete_space
+from ukr.utils import get_abs_path, load_labels
 from ukr.verbalizers.decimal import DecimalFst
 
 
@@ -17,7 +18,9 @@ class MoneyFst(GraphFst):
     def __init__(self, decimal: DecimalFst):
         super().__init__(name="money", kind="verbalize")
 
-        units = pynini.union("$", "₴")
+        # accept every currency symbol the tagger can emit
+        symbols = sorted({row[0] for row in load_labels(get_abs_path("data/currency/currency_major.tsv"))})
+        units = pynini.union(*symbols)
 
         unit = (
                 pynutil.delete("currency:")
