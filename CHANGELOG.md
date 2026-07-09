@@ -2,6 +2,21 @@
 
 ### v0.1.9
 
+- New ELECTRONIC class — e-mail and web addresses as dictated, with KMU-2010
+  romanization of free-form parts and a provider/TLD vocabulary:
+  `"іван крапка петренко собака джімейл крапка ком"` -> `ivan.petrenko@gmail.com`,
+  `"адмін собака укрнет"` -> `admin@ukr.net`, `"ве ве ве крапка приклад крапка юей"` -> `www.pryklad.ua`.
+  Requires «собака» (e-mail) or «ве ве ве» (URL), so ordinary text never matches.
+- Roman-numeral centuries and millennia (Ukrainian typographic convention):
+  `"дев'ятнадцяте століття"` -> `XIX століття`, `"третього тисячоліття"` -> `III тисячоліття`.
+- «номер» + number -> `№`: `"під номером двадцять два"` -> `під № 22`.
+- Numeric ranges: `"від п'яти до десяти відсотків"` -> `5–10 %`,
+  `"дві-три години"` -> `2–3 год`, `"п'ять-шість кілометрів"` -> `5–6 км`.
+  Duration units («год», «хв») are recognised only inside ranges, so the time-of-day
+  grammar is unaffected.
+- Postal codes: zero-leading five-digit sequences, `"нуль один нуль тридцять"` -> `01030`.
+- Street addresses (house number required to trigger):
+  `"вулиця шевченка будинок п'ять квартира три"` -> `вул. шевченка, буд. 5, кв. 3`.
 - New TELEPHONE class (ASR-oriented):
     - Ukrainian phone numbers dictated with the trunk «нуль» or international
       «плюс три вісім нуль» / «плюс тридцять вісім нуль» prefix, spoken as any mix of

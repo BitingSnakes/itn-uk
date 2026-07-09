@@ -2,13 +2,19 @@ import pynini
 from pynini.lib import pynutil
 
 from ukr.graph_utils import GraphFst, delete_extra_space, delete_space
+from ukr.taggers.address import AddressFst
 from ukr.taggers.cardinal import CardinalFst
+from ukr.taggers.century import CenturyFst
+from ukr.taggers.code import CodeFst
 from ukr.taggers.date import DateFst
 from ukr.taggers.decimal import DecimalFst
+from ukr.taggers.electronic import ElectronicFst
 from ukr.taggers.fraction import FractionFst
 from ukr.taggers.measure import MeasureFst
 from ukr.taggers.money import MoneyFst
+from ukr.taggers.number_sign import NumberSignFst
 from ukr.taggers.ordinal import OrdinalFst
+from ukr.taggers.range import RangeFst
 from ukr.taggers.telephone import TelephoneFst
 from ukr.taggers.time import TimeFst
 from ukr.taggers.word import WordFst
@@ -33,11 +39,23 @@ class ClassifyFst(GraphFst):
         date_graph = DateFst(cardinal=cardinal, ordinal=ordinal).fst
         time_graph = TimeFst(cardinal=cardinal, ordinal=ordinal).fst
         telephone_graph = TelephoneFst(cardinal=cardinal).fst
+        electronic_graph = ElectronicFst(cardinal=cardinal).fst
+        century_graph = CenturyFst(cardinal=cardinal).fst
+        number_sign_graph = NumberSignFst(cardinal=cardinal).fst
+        range_graph = RangeFst(cardinal=cardinal).fst
+        code_graph = CodeFst(cardinal=cardinal).fst
+        address_graph = AddressFst(cardinal=cardinal).fst
         word_graph = WordFst().fst
         money_graph = MoneyFst(cardinal=cardinal, decimal=decimal).fst
 
         classify = (
-                pynutil.add_weight(telephone_graph, 1.09)
+                pynutil.add_weight(electronic_graph, 1.09)
+                | pynutil.add_weight(address_graph, 1.09)
+                | pynutil.add_weight(range_graph, 1.09)
+                | pynutil.add_weight(century_graph, 1.09)
+                | pynutil.add_weight(number_sign_graph, 1.09)
+                | pynutil.add_weight(code_graph, 1.09)
+                | pynutil.add_weight(telephone_graph, 1.09)
                 | pynutil.add_weight(decimal_graph, 1.1)
                 | pynutil.add_weight(fraction_graph, 1.1)
                 | pynutil.add_weight(measure_graph, 1.1)

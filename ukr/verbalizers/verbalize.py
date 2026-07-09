@@ -4,6 +4,7 @@ from ukr.graph_utils import GraphFst
 from ukr.verbalizers.cardinal import CardinalFst
 from ukr.verbalizers.date import DateFst
 from ukr.verbalizers.decimal import DecimalFst
+from ukr.verbalizers.electronic import ElectronicFst
 from ukr.verbalizers.fraction import FractionFst
 from ukr.verbalizers.measure import MeasureFst
 from ukr.verbalizers.money import MoneyFst
@@ -23,6 +24,7 @@ class VerbalizeFst(GraphFst):
         self.ordinal = OrdinalFst()
         self.fraction = FractionFst()
         self.telephone = TelephoneFst()
+        self.electronic = ElectronicFst()
         self.measure = MeasureFst(decimal=self.decimal, cardinal=self.cardinal)
         self.money = MoneyFst(decimal=self.decimal)
         self.date = DateFst()
@@ -37,6 +39,7 @@ class VerbalizeFst(GraphFst):
                 | self.ordinal.fst
                 | self.fraction.fst
                 | self.telephone.fst
+                | self.electronic.fst
                 | self.decimal.fst
                 | self.cardinal.fst
         )
@@ -53,6 +56,7 @@ class VerbalizeFst(GraphFst):
                 | self.ordinal.as_json()
                 | self.fraction.as_json()
                 | self.telephone.as_json()
+                | self.electronic.as_json()
                 | self.decimal.as_json()
                 | self.cardinal.as_json()
         )
