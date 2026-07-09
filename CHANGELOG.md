@@ -2,6 +2,20 @@
 
 ### v0.1.9
 
+- Time & duration:
+    - Time ranges (the «години» word is required): `"з дев'ятої до вісімнадцятої години"` -> `з 09:00 до 18:00`.
+    - Durations: `"дві години тридцять хвилин"` -> `2 год 30 хв`, `"сорок хвилин"` -> `40 хв`;
+      time-of-day idioms («п'ять хвилин на дванадцяту») are untouched.
+    - Half-quantities: `"півтори години"` -> `1.5 год`, `"пів кілограма"` / `"півгодини"` -> `0.5 кг` / `0.5 год`.
+- Date ranges (a month is required): `"з першого по п'яте січня"` -> `з 1 по 5 січня`.
+- Decades: `"дев'яності роки"` -> `90-ті роки`, `"у вісімдесятих роках"` -> `у 80-х роках`.
+- Legal/document references (keyword-gated, chainable):
+  `"стаття п'ята частина друга"` -> `ст. 5 ч. 2`, `"сторінка сто двадцять"` -> `с. 120`,
+  `"параграф третій"` -> `§ 3` (also `п.`, `пп.`, `розд.`, `гл.`, `абз.`).
+- Sports scores gated on «рахунок»: `"з рахунком три нуль"` -> `з рахунком 3:0`.
+- Version numbers gated on «версія»: `"версії три крапка десять крапка один"` -> `версії 3.10.1`.
+- IPv4 addresses (exactly four dotted groups):
+  `"сто дев'яносто два крапка сто шістдесят вісім крапка один крапка один"` -> `192.168.1.1`.
 - New ELECTRONIC class — e-mail and web addresses as dictated, with KMU-2010
   romanization of free-form parts and a provider/TLD vocabulary:
   `"іван крапка петренко собака джімейл крапка ком"` -> `ivan.petrenko@gmail.com`,

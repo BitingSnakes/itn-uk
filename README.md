@@ -3,8 +3,9 @@
 WFST-based Inverse Text Normalization (ITN) for Ukrainian, built on NVIDIA NeMo grammars and Pynini.
 
 Supported semiotic classes: cardinal, ordinal, decimal, fraction, measure, money, date, time,
-telephone, electronic (e-mail/URL), century (Roman numerals), number sign (№), ranges,
-postal codes, street addresses.
+telephone, electronic (e-mail/URL), century (Roman numerals), number sign (№), ranges
+(numeric/time/date), durations & half-quantities, decades, legal references, scores,
+versions, IPv4, postal codes, street addresses.
 Punctuation-aware (built for ASR output): `"сто гривень, будь ласка!"` -> `₴100, будь ласка!`,
 `"нуль шістдесят сім, сто двадцять три, сорок п'ять, шістдесят сім"` -> `0671234567`
 

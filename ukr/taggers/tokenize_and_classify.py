@@ -7,16 +7,22 @@ from ukr.taggers.cardinal import CardinalFst
 from ukr.taggers.century import CenturyFst
 from ukr.taggers.code import CodeFst
 from ukr.taggers.date import DateFst
+from ukr.taggers.decade import DecadeFst
 from ukr.taggers.decimal import DecimalFst
+from ukr.taggers.duration import DurationFst
 from ukr.taggers.electronic import ElectronicFst
 from ukr.taggers.fraction import FractionFst
+from ukr.taggers.ip import IpFst
+from ukr.taggers.legal import LegalFst
 from ukr.taggers.measure import MeasureFst
 from ukr.taggers.money import MoneyFst
 from ukr.taggers.number_sign import NumberSignFst
 from ukr.taggers.ordinal import OrdinalFst
 from ukr.taggers.range import RangeFst
+from ukr.taggers.score import ScoreFst
 from ukr.taggers.telephone import TelephoneFst
 from ukr.taggers.time import TimeFst
+from ukr.taggers.version import VersionFst
 from ukr.taggers.word import WordFst
 
 
@@ -45,11 +51,23 @@ class ClassifyFst(GraphFst):
         range_graph = RangeFst(cardinal=cardinal).fst
         code_graph = CodeFst(cardinal=cardinal).fst
         address_graph = AddressFst(cardinal=cardinal).fst
+        duration_graph = DurationFst(cardinal=cardinal).fst
+        decade_graph = DecadeFst().fst
+        legal_graph = LegalFst(cardinal=cardinal).fst
+        score_graph = ScoreFst(cardinal=cardinal).fst
+        version_graph = VersionFst(cardinal=cardinal).fst
+        ip_graph = IpFst(cardinal=cardinal).fst
         word_graph = WordFst().fst
         money_graph = MoneyFst(cardinal=cardinal, decimal=decimal).fst
 
         classify = (
-                pynutil.add_weight(electronic_graph, 1.09)
+                pynutil.add_weight(duration_graph, 1.09)
+                | pynutil.add_weight(decade_graph, 1.09)
+                | pynutil.add_weight(legal_graph, 1.09)
+                | pynutil.add_weight(score_graph, 1.09)
+                | pynutil.add_weight(version_graph, 1.09)
+                | pynutil.add_weight(ip_graph, 1.09)
+                | pynutil.add_weight(electronic_graph, 1.09)
                 | pynutil.add_weight(address_graph, 1.09)
                 | pynutil.add_weight(range_graph, 1.09)
                 | pynutil.add_weight(century_graph, 1.09)
