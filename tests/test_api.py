@@ -1,3 +1,4 @@
+import json
 import subprocess
 import sys
 
@@ -17,8 +18,24 @@ def test_normalize_basic():
     assert normalize("двадцять дві тисячі сто один") == "22101"
 
 
+def test_normalize_is_case_insensitive_but_preserves_plain_words():
+    assert normalize("Київ витратив СТО ГРИВЕНЬ") == "Київ витратив ₴100"
+
+
 def test_normalize_json():
     assert normalize("сьома година двадцять п'ять хвилин", json=True) == '[{"time": "07:25"}]'
+
+
+@pytest.mark.parametrize("text", [
+    'він сказав "привіт"',
+    r"шлях C:\\temp",
+    "емодзі 🙂",
+    "керування\x01символом",
+])
+def test_normalize_json_is_valid_for_arbitrary_words(text):
+    result = normalize(text, json=True)
+
+    assert json.loads(result)
 
 
 def test_normalizer_is_singleton():

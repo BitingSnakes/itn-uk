@@ -43,6 +43,8 @@ def test_decimal__optional_delimiter_with_and(spoken, expected):
 @pytest.mark.parametrize('spoken,expected', [
     ("сім десятих", '0.7'),
     ("сім сотих", '0.07'),
+    ("сім тисячних", '0.007'),
+    ("двадцять п'ять тисячних", '0.025'),
     ("точність приладу рівна двом сотим", 'точність приладу рівна 0.02'),
 ])
 def test_decimal__only_fractional(spoken, expected):

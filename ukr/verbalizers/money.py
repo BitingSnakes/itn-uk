@@ -29,6 +29,9 @@ class MoneyFst(GraphFst):
                 + pynini.closure(units, 1)
                 + pynutil.delete("\"")
         )
-        graph = unit + delete_space + decimal.numbers
+        optional_sign = pynini.closure(
+            pynini.cross('negative: "true"', "-") + delete_space, 0, 1
+        )
+        graph = optional_sign + unit + delete_space + decimal.numbers
         delete_tokens = self.delete_tokens(graph)
         self.fst = delete_tokens.optimize()

@@ -1,22 +1,22 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "ukr_itn"
-version = "0.1.9"
+version = "0.2.0"
 authors = [
     { name = "Vasyl Spachynskyi", email = "vspachyn@gmail.com" },
     { name = "Yehor Smoliakov", email = "egorsmkv@gmail.com" },
 ]
 description = "WFST for Ukrainian Inverse Text Normalization (ITN) based on NVIDIA NeMo and Pynini"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.9"
 keywords = ["itn", "inverse-text-normalization", "ukrainian", "wfst", "pynini", "openfst"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Natural Language :: Ukrainian",
     "Topic :: Text Processing :: Linguistic",

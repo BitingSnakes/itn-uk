@@ -34,6 +34,7 @@ class DateFst(GraphFst):
             graph_cardinal_ties + delete_space + graph_ordinal_digit,
         )
         day = day @ (pynini.closure(NEMO_DIGIT) + pynutil.delete(pynini.union("-") + pynini.closure(NEMO_CHAR)))
+        day = day @ pynini.union(*(str(value) for value in range(1, 32)))
         graph_day = pynutil.insert("day: \"") + day + pynutil.insert("\"")
 
         graph_month = pynutil.insert("month: \"") + pynini.string_file(get_abs_path("data/month.tsv")) + pynutil.insert("\"")

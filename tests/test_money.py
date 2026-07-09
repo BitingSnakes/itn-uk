@@ -21,6 +21,20 @@ def test_money(spoken, expected):
     assert normalize(spoken) == expected
 
 
+@pytest.mark.parametrize("apostrophe", ["'", "’", "ʼ"])
+def test_money_accepts_ukrainian_apostrophe_variants(apostrophe):
+    assert normalize(f"п{apostrophe}ять гривень") == "₴5"
+
+
+@pytest.mark.parametrize("spoken,expected", [
+    ("мінус п'ять гривень", "-₴5"),
+    ("мінус два євро п'ятдесят євроцентів", "-€2.50"),
+    ("мінус нуль цілих п'ять десятих біткоїна", "-₿0.5"),
+])
+def test_negative_money(spoken, expected):
+    assert normalize(spoken) == expected
+
+
 @pytest.mark.parametrize("spoken,expected", [
     ("сто євро", '€100'),
     ("два євро п'ятдесят євроцентів", '€2.50'),

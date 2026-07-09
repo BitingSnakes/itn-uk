@@ -1,7 +1,7 @@
 import pynini
 from pynini.lib import pynutil
 
-from ukr.graph_utils import NEMO_DIGIT, GraphFst
+from ukr.graph_utils import GraphFst
 from ukr.taggers.cardinal import CardinalFst
 
 
@@ -24,7 +24,7 @@ class IpFst(GraphFst):
         group = pynini.union(
             cardinal.graph_zero, cardinal.graph_digit, cardinal.graph_teen,
             cardinal.graph,
-        ) @ pynini.closure(NEMO_DIGIT, 1, 3)
+        ) @ pynini.union(*(str(value) for value in range(256)))
 
         dot_group = pynini.cross(" крапка ", ".") + group
         graph = group + dot_group ** 3

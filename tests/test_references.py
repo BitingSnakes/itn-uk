@@ -39,6 +39,14 @@ def test_ip(spoken, expected):
     assert normalize(spoken) == expected
 
 
+@pytest.mark.parametrize("spoken", [
+    "двісті п'ятдесят шість крапка нуль крапка нуль крапка один",
+    "дев'ятсот дев'яносто дев'ять крапка нуль крапка нуль крапка один",
+])
+def test_invalid_ipv4_octets_are_not_normalized_as_ip(spoken):
+    assert normalize(spoken) not in {"256.0.0.1", "999.0.0.1"}
+
+
 @pytest.mark.parametrize("spoken,expected", [
     ("дев'яності роки", '90-ті роки'),
     ("у вісімдесятих роках", 'у 80-х роках'),

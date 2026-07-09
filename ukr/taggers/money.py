@@ -77,6 +77,9 @@ class MoneyFst(GraphFst):
             unit = integer_part + fractional_part
             units.append(pynutil.insert(f"currency: \"{signature}\" ") + unit)
 
-        final_graph = pynini.union(*units)
+        optional_minus = pynini.closure(
+            pynutil.insert('negative: "true" ') + pynutil.delete("мінус "), 0, 1
+        )
+        final_graph = optional_minus + pynini.union(*units)
         final_graph = self.add_tokens(final_graph)
         self.fst = final_graph.optimize()

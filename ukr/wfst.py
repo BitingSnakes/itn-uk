@@ -11,6 +11,29 @@ import pynini
 
 from ukr.utils import attach_punctuation, reorder, separate_punctuation
 
+_APOSTROPHE_TRANSLATION = str.maketrans({"’": "'", "ʼ": "'"})
+
+
+def _canonicalize_orthography(text: str):
+    """Canonicalizes lexical matching while recording pass-through spelling."""
+    restorations = []
+    canonical_tokens = []
+    for token in text.split(" "):
+        canonical = token.translate(_APOSTROPHE_TRANSLATION).lower()
+        canonical_tokens.append(canonical)
+        if canonical != token:
+            restorations.append((canonical, token))
+    return " ".join(canonical_tokens), restorations
+
+
+def _restore_word_orthography(classified: str, restorations) -> str:
+    """Restores spelling and case only for tokens classified as plain words."""
+    for canonical, original in restorations:
+        canonical_word = f'word {{ name: "{canonical}" }}'
+        original_word = f'word {{ name: "{original}" }}'
+        classified = classified.replace(canonical_word, original_word, 1)
+    return classified
+
 
 def find_tags(text: str, tagger) -> 'pynini.FstLike':
     """
@@ -75,9 +98,11 @@ class InverseNormalizer:
         text = separate_punctuation(text.strip())
         if not text:
             raise ValueError("input text is empty")
+        text, orthography_restorations = _canonicalize_orthography(text)
 
         classified = apply_fst_text(text, self.classify.fst)
         classified = reorder(classified)
+        classified = _restore_word_orthography(classified, orthography_restorations)
 
         if json:
             return apply_fst_text(classified, self._verbalize_json)

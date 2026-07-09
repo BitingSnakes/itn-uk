@@ -22,3 +22,12 @@ from ukr.wfst import normalize
 ])
 def test_time(spoken, expected):
     assert normalize(spoken) == expected
+
+
+@pytest.mark.parametrize("spoken", [
+    "двадцять четверта година п'ять хвилин",
+    "двадцять п'ята година п'ять хвилин",
+    "дванадцята година шістдесят хвилин",
+])
+def test_invalid_clock_values_are_not_normalized_as_times(spoken):
+    assert normalize(spoken) not in {"24:05", "25:05", "12:60"}

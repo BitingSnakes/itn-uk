@@ -8,6 +8,8 @@ telephone, electronic (e-mail/URL), century (Roman numerals), number sign (№),
 versions, IPv4, postal codes, street addresses.
 Punctuation-aware (built for ASR output): `"сто гривень, будь ласка!"` -> `₴100, будь ласка!`,
 `"нуль шістдесят сім, сто двадцять три, сорок п'ять, шістдесят сім"` -> `0671234567`
+Common Ukrainian apostrophes (`'`, `’`, `ʼ`) and uppercase ASR/text input are accepted
+without changing the spelling or case of ordinary words.
 
 ## Installation
 
@@ -29,9 +31,10 @@ normalize("це трапилося дві тисячі дев'ятнадцято
 normalize("мінус п'ять цілих одна десята відсотка")  # -5.1 %
 normalize("двадцять дві тисячі сто один")  # 22101
 normalize("сьома година двадцять п'ять хвилин")  # 07:25
+normalize("МІНУС П’ЯТЬ ГРИВЕНЬ")  # -₴5
 ```
 
-The grammars are built lazily on the first call (a couple of seconds) and cached for the
+The grammars are built lazily on the first call (several seconds) and cached for the
 lifetime of the process; subsequent calls take milliseconds. `normalize` is thread-safe.
 
 ### From command line
@@ -64,6 +67,9 @@ normalize("це трапилося дві тисячі дев'ятнадцято
 # >>> '[{"word": "це"}, {"word": "трапилося"}, {"ordinal": "2019"}, {"word": "числа"}]'
 ```
 
+The returned string is guaranteed to be valid JSON, including when pass-through tokens
+contain quotes, backslashes, control characters, or non-BMP Unicode.
+
 ## C++ library
 
 The compiled grammars can be exported and used from C++ with plain OpenFST (no Python at
@@ -72,6 +78,7 @@ runtime):
 ```shell
 uv run python -m ukr.export grammars_export
 cmake -B cpp/build -S cpp && cmake --build cpp/build
+ctest --test-dir cpp/build --output-on-failure
 echo "двадцять дві тисячі сто один" | ./cpp/build/ukr_itn_cli grammars_export  # 22101
 ```
 

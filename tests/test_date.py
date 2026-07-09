@@ -26,3 +26,7 @@ def test_month(spoken, expected):
 ])
 def test_july(spoken, expected):
     assert normalize(spoken) == expected
+
+
+def test_day_above_31_is_not_normalized_as_a_date():
+    assert normalize("тридцять друге січня") != "32 січня"

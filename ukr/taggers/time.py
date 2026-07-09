@@ -37,11 +37,17 @@ class TimeFst(GraphFst):
 
         hours_ordinal = ordinal.graph_up_to_hundred_component
         hours_ordinal = hours_ordinal @ (pynini.closure(NEMO_DIGIT) + pynutil.delete(pynini.union("-") + pynini.closure(NEMO_CHAR)))
+        # Ordinal tables emit zero-padded hours.  The 24th hour is valid in
+        # relative phrases such as "пів на двадцять четверту" (23:30), but
+        # not as the hour component of an ordinary HH:MM clock value.
+        hours_ordinal = hours_ordinal @ pynini.union(*(f"{value:02d}" for value in range(1, 25)))
+        clock_hours = hours_ordinal @ pynini.union(*(f"{value:02d}" for value in range(1, 24)))
 
-        graph_hours = hours_ordinal + delete_space + pynini.closure(pynutil.delete(hours), 0, 1)
+        graph_hours = clock_hours + delete_space + pynini.closure(pynutil.delete(hours), 0, 1)
         graph_hours = pynutil.insert("hours: \"") + graph_hours + pynutil.insert("\"")
 
-        minutes_cardinal = cardinal.graph_up_to_hundred_component + delete_space + pynini.closure(pynutil.delete(minutes), 0, 1)
+        minutes_cardinal = cardinal.graph_up_to_hundred_component @ pynini.union(*(f"{value:02d}" for value in range(60)))
+        minutes_cardinal += delete_space + pynini.closure(pynutil.delete(minutes), 0, 1)
         graph_minutes = pynutil.insert("minutes: \"") + minutes_cardinal + pynutil.insert("\"")
 
         graph_half_hour = pynini.closure(pynutil.delete("о "), 0, 1) + pynutil.delete("пів на ") + hours_ordinal

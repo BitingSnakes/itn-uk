@@ -61,7 +61,11 @@ class DecimalFst(GraphFst):
 
         self.graph = graph_integer + delete_space + delimiter + delete_space + graph_fractional + optional_graph_quantity
         self.graph |= graph_integer + delete_space + quantity
-        self.graph |= pynutil.insert("integer_part: \"0\" fractional_part: \"") + (tenth | hundreds) + pynutil.insert("\"")
+        only_fractional = pynutil.insert("integer_part: \"0\" fractional_part: \"") + (tenth | hundreds | thousands) + pynutil.insert("\"")
+        # Standalone thousandths overlap with forms in the ordinal-thousand
+        # grammar. Prefer the decimal reading, consistent with tenths and
+        # hundredths in the same construction.
+        self.graph |= pynutil.add_weight(only_fractional, -0.01)
 
         optional_minus_graph = pynini.closure(pynutil.insert("negative: \"true\" ") + pynutil.delete("мінус"), 0, 1)
 

@@ -12,6 +12,10 @@ def test_attach_punctuation():
     assert attach_punctuation('₴100 , дякую !') == '₴100, дякую!'
 
 
+def test_apostrophe_in_plain_word_is_preserved():
+    assert normalize("об’єкт") == "об’єкт"
+
+
 @pytest.mark.parametrize("spoken,expected", [
     ("сто гривень, будь ласка!", '₴100, будь ласка!'),
     ("це трапилося дві тисячі дев'ятнадцятого числа.", 'це трапилося 2019-го числа.'),

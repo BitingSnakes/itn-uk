@@ -1,5 +1,19 @@
 # Changelog
 
+### v0.2.0
+
+- JSON output now correctly escapes quotes, backslashes, control characters, and Unicode
+  pass-through tokens, so `json=True` always returns syntactically valid JSON.
+- Added orthographic preprocessing for uppercase input and the three common Ukrainian
+  apostrophes (`'`, `’`, `ʼ`) while preserving original spelling/case in ordinary words.
+- Added negative money normalization (`"мінус п'ять гривень"` -> `-₴5`).
+- Fixed standalone thousandths (`"сім тисячних"` -> `0.007`) being misclassified as an ordinal.
+- Constrained clock hours, minutes, calendar days, and IPv4 octets to valid numeric ranges.
+- Hardened the C++ runtime with immutable thread-safe FSTs, UTF-8 validation, Python-equivalent
+  Unicode whitespace handling, safe null-output behavior, native tests, and installable CMake targets.
+- Added Python/C++ CI, distribution validation, representative parity checks, and C++ sources
+  to the source distribution.
+
 ### v0.1.9
 
 - Time & duration:
