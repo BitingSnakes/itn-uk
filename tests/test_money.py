@@ -44,3 +44,38 @@ def test_euro_pound(spoken, expected):
 ])
 def test_major_only_currencies(spoken, expected):
     assert normalize(spoken) == expected
+
+
+@pytest.mark.parametrize("spoken,expected", [
+    ("сто швейцарських франків", 'CHF100'),
+    ("один канадський долар", 'C$1'),
+    ("п'ятдесят канадських доларів", 'C$50'),
+    ("сто австралійських доларів", 'A$100'),
+    ("тисяча шведських крон", 'SEK1000'),
+    ("п'ятсот чеських крон", 'CZK500'),
+    ("сто норвезьких крон", 'NOK100'),
+    ("двісті данських крон", 'DKK200'),
+    ("п'ятдесят юанів", '¥50'),
+    ("тисяча рупій", '₹1000'),
+    ("двісті шекелів", '₪200'),
+    ("п'ять тисяч тенге", '₸5000'),
+    ("триста батів", '฿300'),
+    ("сто лір", '₺100'),
+    ("п'ятдесят реалів", 'R$50'),
+    ("тисяча вон", '₩1000'),
+    ("сто дирхамів", 'AED100'),
+    ("два біткоїни", '₿2'),
+    ("нуль цілих п'ять десятих біткоїна", '₿0.5'),
+    ("сто ларі", '₾100'),
+])
+def test_world_currencies(spoken, expected):
+    assert normalize(spoken) == expected
+
+
+@pytest.mark.parametrize("spoken,expected", [
+    # «вона»/«вони» are pronouns, never the KRW currency
+    ("вона сказала", 'вона сказала'),
+    ("вони прийшли", 'вони прийшли'),
+])
+def test_currency_no_pronoun_false_positives(spoken, expected):
+    assert normalize(spoken) == expected

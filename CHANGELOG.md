@@ -43,6 +43,12 @@
       validated to be mutually unambiguous.
     - MONEY: added ₽ (рубль), zł (злотий), ¥ (єна); the tagger now supports currencies
       without a minor unit.
+    - MONEY: full world-currency inventory — CHF (франк, «швейцарських франків»),
+      ¥ юань, ₹ рупія, ₪ шекель, ₸ тенге, ฿ бат, ₺ ліра, R$ реал, ₩ вон, AED дирхам,
+      ₿ біткоїн/біткойн, ₾ ларі, SEK/CZK/NOK/DKK («шведських крон», …),
+      C$/A$ («канадських доларів», «австралійських доларів») — 256 spoken forms,
+      validated mutually unambiguous. KRW accepts only «вон», never the pronouns
+      «вона»/«вони».
 - Richer grammar data:
     - Fixed DATE grammar for July — `month.tsv` contained «ли́пень» with a combining accent,
       so `"п'ятого липня"` was silently left unnormalized; now -> `5 липня`.
