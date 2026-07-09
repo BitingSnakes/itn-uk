@@ -5,6 +5,7 @@ from ukr.graph_utils import GraphFst, delete_extra_space, delete_space
 from ukr.taggers.cardinal import CardinalFst
 from ukr.taggers.date import DateFst
 from ukr.taggers.decimal import DecimalFst
+from ukr.taggers.fraction import FractionFst
 from ukr.taggers.measure import MeasureFst
 from ukr.taggers.money import MoneyFst
 from ukr.taggers.ordinal import OrdinalFst
@@ -26,6 +27,7 @@ class ClassifyFst(GraphFst):
         decimal = DecimalFst(cardinal)
         decimal_graph = decimal.fst
 
+        fraction_graph = FractionFst(cardinal=cardinal).fst
         measure_graph = MeasureFst(cardinal=cardinal, decimal=decimal).fst
         date_graph = DateFst(cardinal=cardinal, ordinal=ordinal).fst
         time_graph = TimeFst(cardinal=cardinal, ordinal=ordinal).fst
@@ -34,6 +36,7 @@ class ClassifyFst(GraphFst):
 
         classify = (
                 pynutil.add_weight(decimal_graph, 1.1)
+                | pynutil.add_weight(fraction_graph, 1.1)
                 | pynutil.add_weight(measure_graph, 1.1)
                 | pynutil.add_weight(cardinal_graph, 1.1)
                 | pynutil.add_weight(ordinal_graph, 1.1)

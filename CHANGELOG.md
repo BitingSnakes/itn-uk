@@ -2,6 +2,15 @@
 
 ### v0.1.9
 
+- New FRACTION class:
+    - `"одна друга"` -> `1/2`, `"дві третіх"` / `"дві треті"` -> `2/3`, `"три чверті"` -> `3/4`,
+      `"мінус три двадцять п'ятих"` -> `-3/25`.
+    - Powers of ten (`"одна десята"`) remain decimals; time phrases with «чверть» are unaffected.
+- Punctuation-aware normalization:
+    - Punctuation (`, . ! ? ; : … ( ) « »`) no longer blocks matches — it is split into
+      standalone tokens before tagging and re-attached after verbalization, e.g.
+      `"сто гривень, будь ласка!"` -> `₴100, будь ласка!`. Hyphens and apostrophes are
+      treated as word-internal. The C++ library mirrors this behaviour exactly.
 - Extended coverage:
     - MEASURE: speed (`"шістдесят кілометрів на годину"` -> `60 км/год`, `м/с`),
       temperature (`"двадцять п'ять градусів за цельсієм"` -> `25 °C`, bare degrees -> `°`),

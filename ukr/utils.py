@@ -57,3 +57,29 @@ def reorder(tagged_text):
             res.append(tag)
 
     return 'tokens '.join(res)
+
+
+# Punctuation that is split off into standalone tokens before tagging and
+# re-attached after verbalization. Hyphens and apostrophes are word-internal
+# in Ukrainian and must not be split.
+_PUNCT_SPLIT = re.compile(r'\s*([,.!?;:…()«»])\s*')
+_ATTACH_BEFORE = re.compile(r'\s+([,.!?;:…»)])')
+_ATTACH_AFTER = re.compile(r'([«(])\s+')
+
+
+def separate_punctuation(text):
+    """
+    Pads punctuation with spaces so each mark becomes its own token, e.g.
+    >>> separate_punctuation('сто гривень, дякую!')
+    'сто гривень , дякую !'
+    """
+    return ' '.join(_PUNCT_SPLIT.sub(r' \1 ', text).split())
+
+
+def attach_punctuation(text):
+    """
+    Re-attaches punctuation tokens to the neighbouring words, e.g.
+    >>> attach_punctuation('₴100 , дякую !')
+    '₴100, дякую!'
+    """
+    return _ATTACH_AFTER.sub(r'\1', _ATTACH_BEFORE.sub(r'\1', text))

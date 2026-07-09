@@ -48,6 +48,68 @@ bool RewriteShortestPath(const StdVectorFst& rule, const std::string& input,
   return true;
 }
 
+// Punctuation split off into standalone tokens before tagging and
+// re-attached after verbalization (mirrors ukr.utils.separate_punctuation /
+// attach_punctuation). Hyphens and apostrophes are word-internal in
+// Ukrainian and must not be split. UTF-8 sequences: « = C2 AB, » = C2 BB,
+// … = E2 80 A6.
+const std::vector<std::string>& PunctMarks() {
+  static const std::vector<std::string> kMarks = {
+      ",", ".", "!", "?", ";", ":", "(", ")", "\xC2\xAB", "\xC2\xBB",
+      "\xE2\x80\xA6"};
+  return kMarks;
+}
+
+std::string SeparatePunctuation(const std::string& text) {
+  std::string spaced;
+  spaced.reserve(text.size() + 16);
+  for (size_t i = 0; i < text.size();) {
+    bool matched = false;
+    for (const auto& mark : PunctMarks()) {
+      if (text.compare(i, mark.size(), mark) == 0) {
+        spaced += ' ';
+        spaced += mark;
+        spaced += ' ';
+        i += mark.size();
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) spaced += text[i++];
+  }
+  // collapse runs of whitespace and trim
+  std::string out;
+  out.reserve(spaced.size());
+  for (char c : spaced) {
+    if (c == ' ' || c == '\t') {
+      if (!out.empty() && out.back() != ' ') out += ' ';
+    } else {
+      out += c;
+    }
+  }
+  if (!out.empty() && out.back() == ' ') out.pop_back();
+  return out;
+}
+
+void ReplaceAll(std::string* s, const std::string& from,
+                const std::string& to) {
+  for (size_t pos = 0; (pos = s->find(from, pos)) != std::string::npos;
+       pos += to.size()) {
+    s->replace(pos, from.size(), to);
+  }
+}
+
+std::string AttachPunctuation(std::string text) {
+  for (const char* close : {",", ".", "!", "?", ";", ":", ")", "\xC2\xBB",
+                            "\xE2\x80\xA6"}) {
+    ReplaceAll(&text, std::string(" ") + close, close);
+  }
+  for (const char* open : {"(", "\xC2\xAB"}) {
+    ReplaceAll(&text, std::string(open) + " ", open);
+  }
+  return text;
+}
+
 // Reproduces ukr.utils.reorder: within each `tokens ` chunk, a tagger may
 // emit fields in reverse order marked with ">>" (e.g. time minutes before
 // hours); swap them back into canonical order.
@@ -117,8 +179,9 @@ std::unique_ptr<InverseNormalizer> InverseNormalizer::FromFiles(
 
 bool InverseNormalizer::Normalize(const std::string& text, std::string* output,
                                   std::string* error) const {
+  const std::string prepared = SeparatePunctuation(text);
   std::string tagged;
-  if (!RewriteShortestPath(*tagger_, text, &tagged)) {
+  if (!RewriteShortestPath(*tagger_, prepared, &tagged)) {
     if (error) *error = "tagger grammar does not accept the input";
     return false;
   }
@@ -127,6 +190,7 @@ bool InverseNormalizer::Normalize(const std::string& text, std::string* output,
     if (error) *error = "verbalizer grammar does not accept: " + tagged;
     return false;
   }
+  *output = AttachPunctuation(*output);
   return true;
 }
 

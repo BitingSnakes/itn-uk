@@ -9,7 +9,7 @@ import threading
 
 import pynini
 
-from ukr.utils import reorder
+from ukr.utils import attach_punctuation, reorder, separate_punctuation
 
 
 def find_tags(text: str, tagger) -> 'pynini.FstLike':
@@ -72,7 +72,7 @@ class InverseNormalizer:
         """
         if not isinstance(text, str):
             raise TypeError(f"expected str, got {type(text).__name__}")
-        text = text.strip()
+        text = separate_punctuation(text.strip())
         if not text:
             raise ValueError("input text is empty")
 
@@ -81,7 +81,7 @@ class InverseNormalizer:
 
         if json:
             return apply_fst_text(classified, self._verbalize_json)
-        return apply_fst_text(classified, self.verbalize_final.fst)
+        return attach_punctuation(apply_fst_text(classified, self.verbalize_final.fst))
 
 
 _normalizer = None
