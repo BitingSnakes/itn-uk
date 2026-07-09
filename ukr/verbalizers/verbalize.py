@@ -8,6 +8,7 @@ from ukr.verbalizers.fraction import FractionFst
 from ukr.verbalizers.measure import MeasureFst
 from ukr.verbalizers.money import MoneyFst
 from ukr.verbalizers.ordinal import OrdinalFst
+from ukr.verbalizers.telephone import TelephoneFst
 from ukr.verbalizers.time import TimeFst
 from ukr.verbalizers.word import WordFst
 
@@ -21,6 +22,7 @@ class VerbalizeFst(GraphFst):
         self.decimal = DecimalFst()
         self.ordinal = OrdinalFst()
         self.fraction = FractionFst()
+        self.telephone = TelephoneFst()
         self.measure = MeasureFst(decimal=self.decimal, cardinal=self.cardinal)
         self.money = MoneyFst(decimal=self.decimal)
         self.date = DateFst()
@@ -34,6 +36,7 @@ class VerbalizeFst(GraphFst):
                 | self.measure.fst
                 | self.ordinal.fst
                 | self.fraction.fst
+                | self.telephone.fst
                 | self.decimal.fst
                 | self.cardinal.fst
         )
@@ -49,6 +52,7 @@ class VerbalizeFst(GraphFst):
                 | self.date.as_json()
                 | self.ordinal.as_json()
                 | self.fraction.as_json()
+                | self.telephone.as_json()
                 | self.decimal.as_json()
                 | self.cardinal.as_json()
         )

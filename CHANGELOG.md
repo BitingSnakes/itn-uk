@@ -2,6 +2,15 @@
 
 ### v0.1.9
 
+- New TELEPHONE class (ASR-oriented):
+    - Ukrainian phone numbers dictated with the trunk «нуль» or international
+      «плюс три вісім нуль» / «плюс тридцять вісім нуль» prefix, spoken as any mix of
+      single digits, teens, tens and hundreds groups:
+      `"нуль шістдесят сім сто двадцять три сорок п'ять шістдесят сім"` -> `0671234567`,
+      `"плюс три вісім нуль шістдесят сім один два три чотири п'ять шість сім"` -> `+380671234567`.
+    - ASR-inserted commas between dictated groups are consumed.
+    - The match is constrained to the exact Ukrainian format (prefix + nine digits),
+      so ordinary numbers never collapse into phone numbers.
 - New FRACTION class:
     - `"одна друга"` -> `1/2`, `"дві третіх"` / `"дві треті"` -> `2/3`, `"три чверті"` -> `3/4`,
       `"мінус три двадцять п'ятих"` -> `-3/25`.
