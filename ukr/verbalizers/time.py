@@ -1,7 +1,7 @@
 import pynini
 from pynini.lib import pynutil
 
-from ukr.graph_utils import GraphFst, delete_space, NEMO_DIGIT
+from ukr.graph_utils import NEMO_DIGIT, GraphFst, delete_space
 
 
 class TimeFst(GraphFst):

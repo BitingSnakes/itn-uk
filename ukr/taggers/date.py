@@ -1,7 +1,7 @@
 import pynini
 from pynini.lib import pynutil
 
-from ukr.graph_utils import GraphFst, delete_space, delete_extra_space, NEMO_CHAR, NEMO_DIGIT
+from ukr.graph_utils import NEMO_CHAR, NEMO_DIGIT, GraphFst, delete_extra_space, delete_space
 from ukr.taggers.cardinal import CardinalFst
 from ukr.taggers.ordinal import OrdinalFst
 from ukr.utils import get_abs_path

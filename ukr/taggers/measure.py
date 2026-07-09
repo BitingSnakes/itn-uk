@@ -2,9 +2,9 @@ import pynini
 from pynini.lib import pynutil
 
 from ukr.graph_utils import (
-    GraphFst, delete_extra_space,
+    GraphFst,
+    delete_extra_space,
 )
-
 from ukr.taggers.cardinal import CardinalFst
 from ukr.taggers.decimal import DecimalFst
 from ukr.utils import get_abs_path

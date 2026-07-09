@@ -1,7 +1,7 @@
 import pynini
 from pynini.lib import pynutil
 
-from ukr.graph_utils import GraphFst, delete_space, NEMO_NOT_QUOTE, NEMO_SIGMA
+from ukr.graph_utils import NEMO_NOT_QUOTE, GraphFst, delete_space
 
 
 class OrdinalFst(GraphFst):

@@ -1,22 +1,56 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "ukr_itn"
-version = "0.1.8"
+version = "0.1.9"
 authors = [
     { name = "Vasyl Spachynskyi", email = "vspachyn@gmail.com" },
 ]
 description = "WFST for Ukrainian Inverse Text Normalization (ITN) based on NVIDIA NeMo and Pynini"
 readme = "README.md"
-requires-python = ">=3.7"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+keywords = ["itn", "inverse-text-normalization", "ukrainian", "wfst", "pynini", "openfst"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Natural Language :: Ukrainian",
+    "Topic :: Text Processing :: Linguistic",
 ]
 dependencies = [
     "pynini>=2.1.6",
 ]
 
+[project.scripts]
+ukr-itn = "ukr.__main__:main"
+
 [project.urls]
 "Homepage" = "https://github.com/lociko/ukraine_itn_wfst"
 "Bug Tracker" = "https://github.com/lociko/ukraine_itn_wfst/issues"
+
+[dependency-groups]
+dev = [
+    "pytest>=7.4.4",
+    "ruff>=0.15.20",
+]
+
+[tool.setuptools.packages.find]
+include = ["ukr*"]
+exclude = ["tests*", "cpp*"]
+
+[tool.setuptools.package-data]
+"ukr" = ["data/**/*.tsv", "py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 160
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E741"]

@@ -4,11 +4,10 @@ import pynini
 from pynini.lib import pynutil
 
 from ukr.graph_utils import (
-    GraphFst,
     NEMO_DIGIT,
+    GraphFst,
     delete_space,
 )
-
 from ukr.taggers.cardinal import CardinalFst
 from ukr.taggers.decimal import DecimalFst
 from ukr.utils import get_abs_path, load_labels

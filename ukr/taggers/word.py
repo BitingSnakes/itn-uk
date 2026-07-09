@@ -1,7 +1,7 @@
 import pynini
 from pynini.lib import pynutil
 
-from ukr.graph_utils import GraphFst, NEMO_NOT_SPACE
+from ukr.graph_utils import NEMO_NOT_SPACE, GraphFst
 
 
 class WordFst(GraphFst):

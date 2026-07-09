@@ -5,3 +5,12 @@ __pycache__/
 /tests/__pycache__/
 
 .DS_Store
+ukr_itn.egg-info
+
+.venv/
+dist/
+build/
+*.egg-info/
+cpp/build/
+grammars_export/
+ukr/grammars/

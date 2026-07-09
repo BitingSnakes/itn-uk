@@ -1,13 +1,13 @@
+from pynini.lib import pynutil
+
 from ukr.graph_utils import GraphFst
-from ukr.verbalizers.time import TimeFst
 from ukr.verbalizers.cardinal import CardinalFst
 from ukr.verbalizers.date import DateFst
 from ukr.verbalizers.decimal import DecimalFst
 from ukr.verbalizers.measure import MeasureFst
 from ukr.verbalizers.money import MoneyFst
 from ukr.verbalizers.ordinal import OrdinalFst
-from pynini.lib import pynutil
-
+from ukr.verbalizers.time import TimeFst
 from ukr.verbalizers.word import WordFst
 
 

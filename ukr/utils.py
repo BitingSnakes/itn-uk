@@ -9,13 +9,13 @@ def get_abs_path(rel_path):
 
     Args:
         rel_path: relative path to this file
-        
+
     Returns absolute path
     """
     abs_path = os.path.dirname(os.path.abspath(__file__)) + os.sep + rel_path
 
     if not os.path.exists(abs_path):
-        print(f'{abs_path} does not exist')
+        raise FileNotFoundError(f'grammar data file not found: {abs_path}')
     return abs_path
 
 
@@ -28,8 +28,8 @@ def load_labels(abs_path):
 
     Returns dictionary of mappings
     """
-    label_tsv = open(abs_path)
-    labels = list(csv.reader(label_tsv, delimiter="\t"))
+    with open(abs_path, encoding='utf-8') as label_tsv:
+        labels = list(csv.reader(label_tsv, delimiter="\t"))
     return labels
 
 

@@ -5,7 +5,6 @@ from ukr.graph_utils import (
     NEMO_DIGIT,
     GraphFst,
 )
-
 from ukr.utils import get_abs_path
 
 

@@ -1,7 +1,7 @@
 import pynini
 from pynini.lib import pynutil
 
-from ukr.graph_utils import delete_space, GraphFst, delete_extra_space
+from ukr.graph_utils import GraphFst, delete_extra_space, delete_space
 from ukr.taggers.cardinal import CardinalFst
 from ukr.taggers.date import DateFst
 from ukr.taggers.decimal import DecimalFst

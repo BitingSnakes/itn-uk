@@ -2,11 +2,10 @@ import pynini
 from pynini.lib import pynutil
 
 from ukr.graph_utils import (
-    GraphFst,
     NEMO_CHAR,
     NEMO_DIGIT,
+    GraphFst,
 )
-
 from ukr.taggers.cardinal import CardinalFst
 from ukr.utils import get_abs_path
 

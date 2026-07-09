@@ -1,14 +1,13 @@
 import pynini
+from pynini.lib import pynutil
 
 from ukr.graph_utils import (
+    NEMO_CHAR,
+    NEMO_DIGIT,
     GraphFst,
     delete_extra_space,
     delete_space,
-    NEMO_DIGIT,
-    NEMO_CHAR,
 )
-from pynini.lib import pynutil
-
 from ukr.taggers.cardinal import CardinalFst
 from ukr.taggers.ordinal import OrdinalFst
 from ukr.utils import get_abs_path

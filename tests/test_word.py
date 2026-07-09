@@ -1,7 +1,8 @@
 import json
+
 import pytest
 
-from ukr.wfst import normalize, json_graph, apply_fst_text
+from ukr.wfst import apply_fst_text, json_graph, normalize
 
 
 @pytest.mark.parametrize('spoken,expected', [

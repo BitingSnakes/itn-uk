@@ -3,7 +3,7 @@ from collections import defaultdict
 import pynini
 from pynini.lib import pynutil
 
-from ukr.graph_utils import GraphFst, delete_space, NEMO_DIGIT
+from ukr.graph_utils import NEMO_DIGIT, GraphFst, delete_space
 from ukr.taggers.cardinal import CardinalFst
 from ukr.utils import get_abs_path, load_labels
 

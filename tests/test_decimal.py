@@ -2,7 +2,7 @@ import pytest
 
 from ukr.taggers.cardinal import CardinalFst
 from ukr.taggers.decimal import DecimalFst
-from ukr.wfst import normalize, apply_fst_text
+from ukr.wfst import apply_fst_text, normalize
 
 
 @pytest.mark.parametrize('spoken,expected', [

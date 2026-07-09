@@ -1,20 +1,37 @@
 import argparse
 import sys
 
-from ukr.wfst import normalize
 
-parser = argparse.ArgumentParser(
-    usage="echo \"це трапилося дев'ятнадцятого числа\" | python -m urk"
-)
-parser.add_argument('-i', '--inverse', action='store_true', help='inverse inverse text normalization')
-parser.add_argument('-j', '--json', action='store_true', help='return result as JSON')
-parser.add_argument('-v', '--verbose', action='store_true', help='Print original input and normalized to compare')
-args = parser.parse_args()
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(
+        prog='ukr-itn',
+        description='Inverse Text Normalization (ITN) for Ukrainian',
+        usage='echo "це трапилося дев\'ятнадцятого числа" | python -m ukr',
+    )
+    parser.add_argument('-j', '--json', action='store_true', help='return result as JSON')
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='print original input alongside the normalized output')
+    parser.add_argument('--version', action='version',
+                        version=f'%(prog)s {__import__("ukr").__version__}')
+    args = parser.parse_args(argv)
 
-if args.inverse:
-    raise ValueError("'--inverse' option not implement yet")
+    from ukr.wfst import normalize
 
-for line in sys.stdin:
-    print(normalize(line.strip(), args.json))
-    if args.verbose:
-        print(line)
+    status = 0
+    for line in sys.stdin:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            print(normalize(line, args.json))
+        except Exception as exc:  # a sentence the grammar cannot parse
+            print(f'error: could not normalize {line!r}: {exc}', file=sys.stderr)
+            status = 1
+            continue
+        if args.verbose:
+            print(line)
+    return status
+
+
+if __name__ == '__main__':
+    sys.exit(main())

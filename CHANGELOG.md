@@ -1,5 +1,17 @@
 # Changelog
 
+### v0.1.9
+
+- Production hardening:
+    - Grammars are now built lazily on first use — `import ukr` is instant.
+    - New public API: `from ukr import normalize, InverseNormalizer` (old `ukr.wfst` imports still work).
+    - `normalize` validates input (raises `TypeError`/`ValueError` on non-string/empty input).
+    - New `ukr-itn` console script (equivalent to `python -m ukr`); the CLI no longer crashes on unparseable lines — it reports them to stderr and continues.
+    - Packaging: proper build backend, grammar data bundled in wheels, `py.typed` marker, Python >= 3.9.
+    - Dev tooling: `ruff` lint (clean), expanded test suite (public API + CLI).
+- New `python -m ukr.export` command exports the compiled tagger/verbalizer FSTs (`.fst`/`.far`) for reuse outside Python.
+- New C++ library in `cpp/` (`ukr_itn`) that performs ITN with plain OpenFST using the exported FSTs — see `cpp/README.md`.
+
 ### v0.1.8
 
 - Added TIME class, some examples:
