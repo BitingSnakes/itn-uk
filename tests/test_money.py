@@ -32,3 +32,15 @@ def test_money(spoken, expected):
 ])
 def test_euro_pound(spoken, expected):
     assert normalize(spoken) == expected
+
+
+@pytest.mark.parametrize("spoken,expected", [
+    ("сто рублів", '₽100'),
+    ("тисяча рублів", '₽1000'),
+    ("п'ятдесят злотих", 'zł50'),
+    ("два злотих", 'zł2'),
+    ("сто єн", '¥100'),
+    ("п'ять цілих п'ять десятих єни", '¥5.5'),
+])
+def test_major_only_currencies(spoken, expected):
+    assert normalize(spoken) == expected

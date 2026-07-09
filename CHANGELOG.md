@@ -2,6 +2,14 @@
 
 ### v0.1.9
 
+- Extended coverage:
+    - MEASURE: speed (`"шістдесят кілометрів на годину"` -> `60 км/год`, `м/с`),
+      temperature (`"двадцять п'ять градусів за цельсієм"` -> `25 °C`, bare degrees -> `°`),
+      data sizes (`Б`, `КБ`, `МБ`, `ГБ`, `ТБ`), power & electricity (`Вт`, `кВт`, `кВт·год`, `А`, `В`),
+      frequency (`Гц`, `кГц`, `МГц`, `ГГц`), plus `дБ`, `ккал`, `кал`, `мг` — 380 unit forms total,
+      validated to be mutually unambiguous.
+    - MONEY: added ₽ (рубль), zł (злотий), ¥ (єна); the tagger now supports currencies
+      without a minor unit.
 - Richer grammar data:
     - Fixed DATE grammar for July — `month.tsv` contained «ли́пень» with a combining accent,
       so `"п'ятого липня"` was silently left unnormalized; now -> `5 липня`.

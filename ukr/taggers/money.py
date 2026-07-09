@@ -53,11 +53,18 @@ class MoneyFst(GraphFst):
         units = []
         optional_and = pynini.closure(delete_space + pynutil.delete("і"), 0, 1)
         for signature, major in unit_majors.items():
-            minor = unit_minors[signature]
-
             # just integer: one dollar, two dollars
             integer_part = integer_graph + delete_space + pynutil.delete(major)
             units.append(pynutil.insert(f"currency: \"{signature}\" ") + integer_part)
+
+            # decimal: two point one million dollars, etc.
+            unit = decimal_graph + delete_space + pynutil.delete(major)
+            units.append(pynutil.insert(f"currency: \"{signature}\" ") + unit)
+
+            # fractional variants only exist for currencies with a minor unit
+            if signature not in unit_minors:
+                continue
+            minor = unit_minors[signature]
 
             # just integer and fractional: one dollar and two cents, two dollars two cents, etc.
             fractional_part = fractional_graph + delete_space + pynutil.delete(minor)
@@ -68,10 +75,6 @@ class MoneyFst(GraphFst):
             integer_part = pynutil.insert("integer_part: \"0\" ")
             fractional_part = fractional_graph + delete_space + pynutil.delete(minor)
             unit = integer_part + fractional_part
-            units.append(pynutil.insert(f"currency: \"{signature}\" ") + unit)
-
-            # decimal: two point one million dollars, etc.
-            unit = decimal_graph + delete_space + pynutil.delete(major)
             units.append(pynutil.insert(f"currency: \"{signature}\" ") + unit)
 
         final_graph = pynini.union(*units)
