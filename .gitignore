@@ -8,7 +8,6 @@ __pycache__/
 ukr_itn.egg-info
 
 .venv/
-dist/
 build/
 *.egg-info/
 cpp/build/
