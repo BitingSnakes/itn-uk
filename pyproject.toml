@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ukr_itn"
-version = "0.2.0"
+version = "0.3.0"
 authors = [
     { name = "Vasyl Spachynskyi", email = "vspachyn@gmail.com" },
     { name = "Yehor Smoliakov", email = "egorsmkv@gmail.com" },

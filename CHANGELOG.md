@@ -1,6 +1,6 @@
 # Changelog
 
-### Unreleased
+### v0.3.0
 
 - Added an English-style highest-priority whitelist tagger/verbalizer for dictated
   abbreviations (`"ю ес бі"` -> `USB`, `"вай фай"` -> `Wi-Fi`), including JSON output.
