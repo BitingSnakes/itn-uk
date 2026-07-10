@@ -11,6 +11,7 @@ from ukr.verbalizers.money import MoneyFst
 from ukr.verbalizers.ordinal import OrdinalFst
 from ukr.verbalizers.telephone import TelephoneFst
 from ukr.verbalizers.time import TimeFst
+from ukr.verbalizers.whitelist import WhitelistFst
 from ukr.verbalizers.word import WordFst
 
 
@@ -30,9 +31,11 @@ class VerbalizeFst(GraphFst):
         self.date = DateFst()
         self.time = TimeFst()
         self.word = WordFst()
+        self.whitelist = WhitelistFst()
 
         graph = (
-                self.time.fst
+                self.whitelist.fst
+                | self.time.fst
                 | self.date.fst
                 | self.money.fst
                 | self.measure.fst
@@ -49,7 +52,8 @@ class VerbalizeFst(GraphFst):
 
     def as_json(self):
         graph = (
-                self.money.as_json()
+                self.whitelist.as_json()
+                | self.money.as_json()
                 | self.measure.as_json()
                 | self.time.as_json()
                 | self.date.as_json()

@@ -1,5 +1,14 @@
 # Changelog
 
+### Unreleased
+
+- Added an English-style highest-priority whitelist tagger/verbalizer for dictated
+  abbreviations (`"ю ес бі"` -> `USB`, `"вай фай"` -> `Wi-Fi`), including JSON output.
+- Added day-period conversion to unambiguous 24-hour time (`"третя година дня"` ->
+  `15:00`, `"дванадцята ночі"` -> `00:00`).
+- Added structured time-zone tagging and verbalization (`"за київським часом"` ->
+  `Europe/Kyiv`, plus London and UTC).
+
 ### v0.2.0
 
 - JSON output now correctly escapes quotes, backslashes, control characters, and Unicode

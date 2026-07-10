@@ -76,7 +76,34 @@ class TimeFst(GraphFst):
             pynutil.insert(" minutes: \"") + zeros + delete_space + cardinal.graph_digit + pynutil.insert("\""),
         )
 
-        final_graph = graph_hm | graph_mh | graph_half_hour | graph_to_quarter_hour | graph_from_quarter_hour | graph_hzz
+        # English-style structured day-period support, rendered as an
+        # unambiguous 24-hour value ("третя година дня" -> 15:00).
+        pm_hours = clock_hours @ pynini.string_map(
+            [(f"{hour:02d}", f"{hour + 12:02d}") for hour in range(1, 12)] + [("12", "12")]
+        )
+        am_hours = clock_hours @ pynini.string_map(
+            [(f"{hour:02d}", f"{hour:02d}") for hour in range(1, 12)] + [("12", "00")]
+        )
+        optional_hour_unit = pynini.closure(delete_space + pynutil.delete(hours), 0, 1)
+        graph_period = pynini.union(
+            pm_hours + optional_hour_unit + delete_space + pynutil.delete(pynini.union("дня", "вечора")),
+            am_hours + optional_hour_unit + delete_space + pynutil.delete(pynini.union("ночі", "ранку")),
+        )
+        graph_period = pynutil.insert('hours: "') + graph_period + pynutil.insert('" minutes: "00"')
+
+        time_zone = pynini.string_map(
+            [
+                ("за київським часом", "Europe/Kyiv"),
+                ("за лондонським часом", "Europe/London"),
+                ("за всесвітнім координованим часом", "UTC"),
+            ]
+        )
+        optional_zone = pynini.closure(
+            delete_extra_space + pynutil.insert('zone: "') + time_zone + pynutil.insert('"'), 0, 1
+        )
+
+        final_graph = graph_hm | graph_mh | graph_half_hour | graph_to_quarter_hour | graph_from_quarter_hour | graph_hzz | graph_period
+        final_graph += optional_zone
         final_graph = self.add_tokens(final_graph.optimize())
 
         self.fst = final_graph.optimize()

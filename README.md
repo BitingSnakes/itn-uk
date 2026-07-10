@@ -6,6 +6,7 @@ Supported semiotic classes: cardinal, ordinal, decimal, fraction, measure, money
 telephone, electronic (e-mail/URL), century (Roman numerals), number sign (№), ranges
 (numeric/time/date), durations & half-quantities, decades, legal references, scores,
 versions, IPv4, postal codes, street addresses.
+Also supports high-priority spoken abbreviations and time day-period/time-zone forms.
 Punctuation-aware (built for ASR output): `"сто гривень, будь ласка!"` -> `₴100, будь ласка!`,
 `"нуль шістдесят сім, сто двадцять три, сорок п'ять, шістдесят сім"` -> `0671234567`
 Common Ukrainian apostrophes (`'`, `’`, `ʼ`) and uppercase ASR/text input are accepted
@@ -32,6 +33,8 @@ normalize("мінус п'ять цілих одна десята відсотк�
 normalize("двадцять дві тисячі сто один")  # 22101
 normalize("сьома година двадцять п'ять хвилин")  # 07:25
 normalize("МІНУС П’ЯТЬ ГРИВЕНЬ")  # -₴5
+normalize("третя година дня за київським часом")  # 15:00 Europe/Kyiv
+normalize("підключи ю ес бі та вай фай")  # підключи USB та Wi-Fi
 ```
 
 The grammars are built lazily on the first call (several seconds) and cached for the
